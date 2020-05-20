@@ -1,5 +1,5 @@
 # What is this?
-This is #PureSwift code for construction of a [BIP39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) compatible list of common Swedish 🇸🇪 words. For analysis I've used some Python too.
+This is Haskell code for construction of a [BIP39](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) compatible list of common Swedish 🇸🇪 words. For analysis I've used some Python too.
 
 # Meta Corpus
 I have not used a "raw" corpus, but rather a parsed version which contains metadata regarding frequency, which saves a lot of time. So even though this is not a "raw" corpus, but rather a semi processed one, I will refer to it as the "corpus".
@@ -43,27 +43,27 @@ The algorithm used is heavily dependent on the source data, i.e. the format of e
 
 In this step we read `L` number of lines of the source corpus. The result of this program is a BIP39 compatible wordlist which contains 2048 (`2¹¹`) words. 
 
-The goal of this step is to convert the source corpus into Swift `Line` models which we can write to a JSON file to allow faster execution of the program next time. For the next run of the program we can thus skip to step 2.
+The goal of this step is to convert the source corpus into Haskell `Line` models which we can write to a JSON file to allow faster execution of the program next time. For the next run of the program we can thus skip to step 2.
 
 We are going to reject *a lot* of lines in the source corpus, because it contains delimitors. It also contains words being to short (less than 3 characters, e.g. common Swedish words 🇸🇪: _"en"_ (🇬🇧:_"one"_), and prepositions 🇸🇪: _"i"_ (🇬🇧: _"in"_).
 
 The model of the line is thus:
-```swift
-struct ReadLine {
 
-    // Read verbatim from corpus
-    let wordForm: String
-    let partOfSpeechTag: PartOfSpeechTag
-    let baseForm: String
-    let compoundWord: Bool
-    let totalNumberOfOccurences: Int
-    let relativeNumberOfOccurences: Double
-    
-    // Appended by this program
-    let positionInCorpus: Int
-    let indexInListOfIncludedParsedLines: Int
-}
+```haskell
+data ReadLine = ReadLine {
+    -- Read verbatim from corpus 
+    wordForm :: String
+    , partOfSpeechTag :: PartOfSpeechTag
+    , baseForm :: String
+    , isCompoundWord :: Bool
+    , totalNumberOfOccurences :: Int -- ought to be based for `Ord`
+    , relativeNumberOfOccurences :: Float
+
+    -- Appended by this program
+    , positionInCorpus: Int
+} deriving (Eq, Ord, Show)
 ```
+
 We read the corpus until we have created a list of `L` lines. This step should not so much logic, but it is uncessary to save lines which we know we will reject, e.g. because the word is too short, or because it is a delimitor.
 
 But if we are going to reject the line because the "word" is too short, what do we mean by "word", the read word (part one of the line) Or the base word of the line (part three of the line)?

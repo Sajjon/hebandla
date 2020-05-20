@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 5037671e6d3489046bc0486fb9f6cca3e4576eb366746171d8322b5414720578
+-- hash: 61ac5e705aa51eb384573a373c2d3c19fb1cee19bc2226cf6337cc2971d6b4e5
 
 name:           hebandla
 version:        0.1.0.0
@@ -37,6 +37,7 @@ library
     , directory >=1.3.6.0
     , filepath >=1.4.2.1
     , optparse-applicative >=0.15.1
+    , split >=0.2.3.4
   default-language: Haskell2010
 
 executable hebandla-exe
@@ -52,6 +53,7 @@ executable hebandla-exe
     , filepath >=1.4.2.1
     , hebandla
     , optparse-applicative >=0.15.1
+    , split >=0.2.3.4
   default-language: Haskell2010
 
 test-suite hebandla-test
@@ -68,4 +70,5 @@ test-suite hebandla-test
     , filepath >=1.4.2.1
     , hebandla
     , optparse-applicative >=0.15.1
+    , split >=0.2.3.4
   default-language: Haskell2010
